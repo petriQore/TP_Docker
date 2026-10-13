@@ -20,6 +20,7 @@ redis = Redis(
     socket_timeout=2,
 )
 
+#testing jenkins
 
 def get_hit_count():
     """Atomically increment and return the 'hits' counter."""

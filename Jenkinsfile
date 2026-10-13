@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         // CHANGE THIS to your own Docker Hub username
-        DOCKERHUB_USER = 'your-dockerhub-username'
+        DOCKERHUB_USER = 'petriqore'
         IMAGE          = "${DOCKERHUB_USER}/counter-app"
         TAG            = "${env.BUILD_NUMBER}"
     }
