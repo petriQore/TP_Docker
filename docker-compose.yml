@@ -1,0 +1,36 @@
+# Part 3 - Orchestration with Docker Compose
+# All values come from the .env file (no hard-coded ports).
+services:
+  web:
+    build: .
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
+    # NOTE: no "container_name" here, otherwise we could not scale the service.
+    ports:
+      - "${WEB_PORT}:${APP_PORT}"     # host port -> container port
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - APP_PORT=${APP_PORT}
+    depends_on:
+      - db-service
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  db-service:                          # service name = DNS name used by the app
+    image: redis:7-alpine
+    # appendonly: every write is logged to disk, so data survives even a brutal
+    # "docker rm -f" (the default RDB snapshot is only written periodically).
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  redis-data:

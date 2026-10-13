@@ -1,0 +1,12 @@
+# Keep the build context small and avoid leaking secrets into the image
+.git
+.env
+**/__pycache__
+**/*.pyc
+app/tests
+proof
+jenkins
+loadbalancer
+*.md
+docker-compose*.yml
+Jenkinsfile

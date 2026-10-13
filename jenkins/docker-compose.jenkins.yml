@@ -1,0 +1,15 @@
+# Start Jenkins locally:  docker compose -f jenkins/docker-compose.jenkins.yml up -d --build
+# Then open http://localhost:8080
+services:
+  jenkins:
+    build: .
+    ports:
+      - "8080:8080"
+    user: root   # simplest way to access the Docker socket (lab use only!)
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      # "Docker outside of Docker": Jenkins uses the HOST's Docker engine
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  jenkins_home:
